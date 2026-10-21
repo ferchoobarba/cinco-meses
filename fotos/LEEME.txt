@@ -1,0 +1,5 @@
+Pon aqui las 9 fotos con estos nombres exactos:
+1.jpg, 2.jpg, 3.jpg ... 9.jpg
+
+El orden de las frases esta en index.html (busca CONFIG).
+Si una foto falta, la pagina muestra un marco de "Foto N" en su lugar.

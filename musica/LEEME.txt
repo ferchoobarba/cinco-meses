@@ -1,0 +1,2 @@
+Pon aqui la cancion con el nombre: cancion.mp3
+Suena en cuanto ella entra (o con su primer toque, porque los celulares no dejan sonar musica sola).
