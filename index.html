@@ -157,6 +157,8 @@
   .foto img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.18) contrast(1.04) saturate(1.02);transform:scale(1.02)}
   .copia.actual .foto img{animation:kenburns 9s ease-out forwards}
   @keyframes kenburns{from{transform:scale(1.02)}to{transform:scale(1.1) translateY(-1.5%)}}
+  .foto img.fondo{position:absolute;inset:-8%;width:116%;height:116%;object-fit:cover;filter:blur(16px) brightness(.5) saturate(1.1);animation:none !important;transform:none}
+  .foto.apaisada img:not(.fondo){position:relative;object-fit:contain}
   .sin-foto{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:.6rem;color:var(--crema);
     background:linear-gradient(160deg,#6b2a36,#2d0f17 70%);font-family:var(--display);letter-spacing:.14em;text-transform:uppercase;font-size:.85rem}
   .sin-foto svg{width:2.4rem;height:2.4rem;color:var(--oro)}
@@ -579,16 +581,16 @@ const CONFIG = {
       frase: "Tunja era puro frío, hasta que me tocó tu ladito, Chinina." },
     { src: "fotos/3.jpg", donde: "De viaje", nota: "contigo a donde sea",
       frase: "No importa a dónde vayamos: mi lugar favorito siempre es a tu lado." },
-    { src: "fotos/4.jpg", donde: "Tunja, Boyacá", nota: "un plan cualquiera",
-      frase: "Un heladito, una caminata, nada en especial… y aun así, mis días favoritos." },
+    { src: "fotos/4.jpg", donde: "Puente de Boyacá", nota: "mi independencia",
+      frase: "En el Puente de Boyacá se ganó una independencia… y ahí mismo yo perdí la mía: desde entonces soy tuyo." },
     { src: "fotos/5.jpg", donde: "De viaje", nota: "perdernos juntos",
       frase: "Contigo, Pequeña Fiho, hasta perdernos en el camino es parte del plan." },
-    { src: "fotos/6.jpg", donde: "Del Llano", nota: "mi llanera",
-      frase: "Llanera de Saravena: la más dura del Llano y la más linda de mi vida." },
-    { src: "fotos/7.jpg", donde: "Tunja, Boyacá", nota: "camba y tunjano",
+    { src: "fotos/6.jpg", donde: "Lago de Tota, Boyacá", nota: "mi llanera",
+      frase: "Llanera de Saravena: ni el Lago de Tota es tan hondo como lo que siento por ti." },
+    { src: "fotos/7.jpg", donde: "Tunja, Boyacá", nota: "mi Quijote y su Sancho",
       frase: "A veces se me sale lo camba, a veces lo tunjano… pero siempre se me sale un te amo." },
-    { src: "fotos/8.jpg", donde: "A la Sierra", nota: "mi Pastusita",
-      frase: "Mi Pastusita llanera ya dice «puej» con jota… ¡quién te viera, toda una camba!" },
+    { src: "fotos/8.jpg", donde: "Iza, Boyacá", nota: "mi Pastusita",
+      frase: "Iza tiene los postres más dulces de Boyacá… pero nada tan dulce como mi Pastusita diciendo «puej» con jota." },
     { src: "fotos/9.jpg", donde: "Del Llano a la Sierra", nota: "cinco meses",
       frase: "Un camba y una llanera: nunca el Llano y la Sierra estuvieron tan cerca. Te amo, te amito, te amo muchito." }
   ],
@@ -724,6 +726,16 @@ const CONFIG = {
     img.addEventListener("error", () => {
       img.remove();
       c.querySelector(".foto").insertAdjacentHTML("beforeend", `<div class="sin-foto">${iconoCamara}Foto ${i + 1}</div>`);
+    });
+    // Foto horizontal: se ve completa y la misma foto, desenfocada, llena el marco
+    img.addEventListener("load", () => {
+      if (img.naturalWidth <= img.naturalHeight * 1.05) return;
+      const fondo = document.createElement("img");
+      fondo.className = "fondo"; fondo.alt = ""; fondo.src = img.src;
+      fondo.setAttribute("aria-hidden", "true");
+      const marco = c.querySelector(".foto");
+      marco.prepend(fondo);
+      marco.classList.add("apaisada");
     });
     img.src = f.src;
     c.querySelector(".donde").textContent = f.donde;
